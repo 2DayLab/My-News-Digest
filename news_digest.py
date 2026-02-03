@@ -203,6 +203,12 @@ def fetch_rss_articles(config: AppConfig) -> List[Dict]:
     logger.info(f"📡 RSS 수집 시작 (기준: {cutoff_time.strftime('%Y-%m-%d %H:%M UTC')})")
     
     with get_http_session(config) as session:
+        session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+            'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Referer': 'https://www.google.com/'
+        })
         for source, feed_url in config.rss_feeds.items():
             try:
                 logger.info(f"🔍 {source} 수집 중...")
