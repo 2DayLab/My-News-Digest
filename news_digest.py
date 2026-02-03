@@ -525,7 +525,7 @@ def split_message(message: str, max_length: int) -> List[str]:
 # 8. 메인 실행 함수
 # ========================================
 
-def main():
+async def main():
     """메인 실행 로직"""
     start_time = time.time()
     
@@ -560,7 +560,7 @@ def main():
     
     # 4. 텔레그램 발송
     logger.info("\n[단계 3/3] 텔레그램 발송")
-    success = send_to_telegram(summary, app_config)
+    success = await send_to_telegram(summary, app_config)
     
     # 5. 결과
     elapsed_time = time.time() - start_time
@@ -574,7 +574,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("\n⚠️  사용자 중단")
         sys.exit(0)
