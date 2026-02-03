@@ -1,0 +1,24 @@
+# Python 패키지 의존성 (설정 파일 통합 버전)
+
+# RSS 파싱
+feedparser==6.0.11
+
+# HTTP 요청
+requests==2.32.3
+urllib3==2.2.1
+
+# HTML 파싱
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# Google Gemini AI
+google-generativeai==0.8.3
+
+# 텔레그램 봇
+python-telegram-bot==21.9
+
+# 날짜 파싱
+python-dateutil==2.9.0.post0
+
+# YAML 설정 파일 (새로 추가)
+PyYAML==6.0.2
