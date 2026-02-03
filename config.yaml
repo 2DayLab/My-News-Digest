@@ -126,7 +126,7 @@ ai:
   # - gemini-1.5-flash-8b: 가장 빠르고 저렴 (권장)
   # - gemini-1.5-flash: 균형잡힌 성능
   # - gemini-1.5-pro: 최고 품질 (느림)
-  model: "gemini-3-flash"
+  model: "gemini-1.5-flash"
   
   # Temperature (0.0~2.0)
   # 낮을수록 일관성 높음, 높을수록 창의적
