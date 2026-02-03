@@ -1,0 +1,78 @@
+name: 📰 뉴스 자동 요약 (최적화 버전)
+
+on:
+  # 매일 오전 8시 실행 (KST = UTC+9)
+  schedule:
+    - cron: '0 1 * * *'  # UTC 23:00 = KST 08:00 다음날
+  
+  # 수동 실행 (테스트용)
+  workflow_dispatch:
+    inputs:
+      hours_threshold:
+        description: '기사 수집 시간 범위 (시간)'
+        required: false
+        default: '24'
+
+jobs:
+  fetch-and-summarize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15  # 전체 작업 타임아웃 (무한 실행 방지)
+    
+    steps:
+      # 1. 레포지토리 체크아웃
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      # 2. Python 설정 (최신 안정 버전)
+      - name: 🐍 Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'  # pip 캐싱 활성화 (빌드 속도 향상)
+      
+      # 3. 의존성 설치
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. 환경 변수 설정
+      - name: 🔐 Set environment variables
+        run: |
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> $GITHUB_ENV
+          echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> $GITHUB_ENV
+      
+      # 5. 뉴스 요약 스크립트 실행
+      - name: 🚀 Run news digest script
+        run: python news_digest.py
+        timeout-minutes: 10  # 스크립트 타임아웃
+      
+      # 6. 실행 완료 알림
+      - name: ✅ Completion notice
+        if: success()
+        run: |
+          echo "✅ 뉴스 요약 완료"
+          echo "⏰ 완료 시간: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "📊 다음 실행: 내일 오전 10시 (KST)"
+      
+      # 7. 실패 시 디버깅 정보 출력
+      - name: 🐛 Debug on failure
+        if: failure()
+        run: |
+          echo "❌ 작업 실패"
+          echo "━━━━━━━━━━━━━━━━━━"
+          echo "환경 변수 확인:"
+          env | grep -E "GEMINI|TELEGRAM" || echo "⚠️  환경 변수 누락"
+          echo "━━━━━━━━━━━━━━━━━━"
+          echo "Python 버전:"
+          python --version
+          echo "━━━━━━━━━━━━━━━━━━"
+          echo "설치된 패키지:"
+          pip list | grep -E "feedparser|google|telegram|requests"
+          echo "━━━━━━━━━━━━━━━━━━"
+          echo "💡 디버깅 팁:"
+          echo "1. GitHub Secrets 확인 (Settings > Secrets)"
+          echo "2. Gemini API 키 유효성 확인"
+          echo "3. 텔레그램 봇 토큰 및 Chat ID 확인"
+          echo "4. 로그에서 구체적인 에러 메시지 확인"
