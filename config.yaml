@@ -18,7 +18,7 @@ rss_feeds:
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
   - name: "CNBC Indonesia"
-    url: "https://www.cnbcindonesia.com/rss"
+    url: "https://www.cnbcindonesia.com/news/rss"
     enabled: true
     priority: 1
     description: "경제/금융 전문"
