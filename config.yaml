@@ -14,68 +14,71 @@
 
 rss_feeds:
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 인도네시아 뉴스
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - name: "The Jakarta Post"
+    url: "https://www.thejakartapost.com/rss"
+    enabled: true
+    priority: 1
+    description: "영자 일간지, 정치/경제 중심"
+  
+  - name: "CNBC Indonesia"
+    url: "https://www.cnbcindonesia.com/rss"
+    enabled: true
+    priority: 2
+    description: "경제/금융 전문"
+  
+  - name: "Tempo.co"
+    url: "https://www.tempo.co/rss"
+    enabled: true
+    priority: 3
+    description: "종합 뉴스, 인도네시아어"
+  
+  - name: "Antara News"
+    url: "https://www.antaranews.com/rss/terkini"
+    enabled: true
+    priority: 4
+    description: "국영 통신사, 실시간 뉴스"
+    
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 국제 뉴스 (예시)
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
-  - name: "BBC News"
-    url: "http://feeds.bbci.co.uk/news/rss.xml"
-    enabled: true
-    priority: 1
-    description: "BBC 국제 뉴스"
-  
-  - name: "CNN Top Stories"
-    url: "http://rss.cnn.com/rss/cnn_topstories.rss"
-    enabled: true
-    priority: 2
-    description: "CNN 주요 뉴스"
+  #  - name: "BBC News"
+  #    url: "http://feeds.bbci.co.uk/news/rss.xml"
+  #    enabled: true
+  #    priority: 1
+  #    description: "BBC 국제 뉴스"
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 한국 뉴스 (예시)
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
-  - name: "연합뉴스"
-    url: "https://www.yna.co.kr/rss/news.xml"
-    enabled: false
-    priority: 3
-    description: "한국 종합 뉴스"
-  
-  - name: "조선일보"
-    url: "https://www.chosun.com/arc/outboundfeeds/rss/"
-    enabled: false
-    priority: 4
-    description: "한국 주요 일간지"
+  #  - name: "연합뉴스"
+  #    url: "https://www.yna.co.kr/rss/news.xml"
+  #    enabled: false
+  #    priority: 3
+  #    description: "한국 종합 뉴스"
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 기술/IT 뉴스 (예시)
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
-  - name: "TechCrunch"
-    url: "https://techcrunch.com/feed/"
-    enabled: false
-    priority: 5
-    description: "기술 스타트업 뉴스"
-  
-  - name: "The Verge"
-    url: "https://www.theverge.com/rss/index.xml"
-    enabled: false
-    priority: 6
-    description: "기술 제품 리뷰"
+  #  - name: "TechCrunch"
+  #    url: "https://techcrunch.com/feed/"
+  #    enabled: false
+  #    priority: 5
+  #    description: "기술 스타트업 뉴스"
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 경제/금융 뉴스 (예시)
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
-  - name: "Bloomberg"
-    url: "https://www.bloomberg.com/feed/podcast/etf-report.xml"
-    enabled: false
-    priority: 7
-    description: "경제 금융 뉴스"
-  
-  - name: "Financial Times"
-    url: "https://www.ft.com/?format=rss"
-    enabled: false
-    priority: 8
-    description: "세계 경제 뉴스"
+  #  - name: "Bloomberg"
+  #    url: "https://www.bloomberg.com/feed/podcast/etf-report.xml"
+  #    enabled: false
+  #    priority: 7
+  #    description: "경제 금융 뉴스"
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 추가 방법 안내
