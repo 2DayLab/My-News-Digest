@@ -17,22 +17,22 @@ rss_feeds:
   # 인도네시아 뉴스
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   
-  - name: "CNBC Indonesia"
-    url: "https://www.cnbcindonesia.com/news/rss"
-    enabled: true
-    priority: 1
-    description: "경제/금융 전문"
+  #  - name: "CNBC Indonesia"
+  #    url: "https://www.cnbcindonesia.com/news/rss"
+  #    enabled: true
+  #    priority: 1
+  #    description: "경제/금융 전문"
   
   - name: "Tempo.co"
     url: "https://rss.tempo.co/nasional"
     enabled: true
-    priority: 2
+    priority: 1
     description: "종합 뉴스, 인도네시아어"
   
   - name: "Antara News"
     url: "https://www.antaranews.com/rss/terkini.xml"
     enabled: true
-    priority: 3
+    priority: 2
     description: "국영 통신사, 실시간 뉴스"
     
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -100,10 +100,10 @@ rss_feeds:
 # ───────────────────────────────────────────────────────────────
 collection:
   # 소스당 최대 수집 기사 수 (1~100)
-  max_articles_per_source: 20
+  max_articles_per_source: 15
   
   # 전체 최대 수집 기사 수 (1~200)
-  max_total_articles: 60
+  max_total_articles: 40
   
   # 수집할 기사의 시간 범위 (시간 단위, 1~168)
   # 24 = 최근 24시간, 48 = 최근 48시간
