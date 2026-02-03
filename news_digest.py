@@ -10,6 +10,7 @@ import sys
 import time
 import logging
 import hashlib
+import asyncio
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 from datetime import datetime, timedelta, timezone
@@ -448,7 +449,7 @@ def summarize_with_gemini(articles: List[Dict], config: AppConfig) -> str:
 # 7. 텔레그램 발송 함수
 # ========================================
 
-def send_to_telegram(message: str, config: AppConfig) -> bool:
+async def send_to_telegram(message: str, config: AppConfig) -> bool:
     """텔레그램으로 메시지 발송"""
     
     try:
@@ -458,7 +459,7 @@ def send_to_telegram(message: str, config: AppConfig) -> bool:
         
         for i, msg in enumerate(messages, 1):
             try:
-                bot.send_message(
+                await bot.send_message(
                     chat_id=config.telegram_chat_id,
                     text=msg,
                     parse_mode=config.parse_mode,
@@ -467,13 +468,13 @@ def send_to_telegram(message: str, config: AppConfig) -> bool:
                 logger.info(f"✅ 메시지 {i}/{len(messages)} 발송 완료")
                 
                 if i < len(messages):
-                    time.sleep(config.send_interval)
+                    await asyncio.sleep(config.send_interval)
                     
             except TelegramError as e:
                 logger.error(f"❌ 메시지 {i} 발송 실패: {str(e)}")
                 if "parse" in str(e).lower():
                     logger.info("🔄 plain text로 재시도")
-                    bot.send_message(
+                    await bot.send_message(
                         chat_id=config.telegram_chat_id,
                         text=msg,
                         disable_web_page_preview=True
