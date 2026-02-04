@@ -1,5 +1,5 @@
 """
-설정 파일 로더 및 검증기
+설정 파일 로더 및 검증기 (2026년 2월 수정)
 config.yaml을 로드하고 검증합니다.
 """
 
@@ -86,21 +86,39 @@ class ConfigValidator:
     
     @staticmethod
     def validate_ai(config: Dict[str, Any]) -> bool:
-        """AI 설정 검증"""
+        """AI 설정 검증 (2026년 2월 업데이트)"""
         model = config.get('model', '')
         temperature = config.get('temperature', 0.3)
         max_tokens = config.get('max_output_tokens', 2048)
         summary_count = config.get('summary_count', 10)
         
-        # 모델명 검증
+        # 2026년 유효한 모델 목록
         valid_models = [
-            'gemini-1.5-flash-8b',
-            'gemini-1.5-flash',
-            'gemini-1.5-pro',
-            'gemini-pro'
+            'gemini-2.5-flash',       # ✅ 권장
+            'gemini-2.5-flash-lite',  # ✅ 빠름
+            'gemini-2.5-pro',         # ✅ 고품질
+            'gemini-3-flash',         # ⚠️ Preview
+            'gemini-3-pro',           # ⚠️ Preview
         ]
+        
+        # 폐기된 모델 경고
+        deprecated_models = {
+            'gemini-1.5-flash-8b': 'gemini-2.5-flash',
+            'gemini-1.5-flash': 'gemini-2.5-flash',
+            'gemini-1.5-pro': 'gemini-2.5-pro',
+            'gemini-2.0-flash': 'gemini-2.5-flash',
+            'gemini-pro': 'gemini-2.5-flash',
+        }
+        
+        if model in deprecated_models:
+            new_model = deprecated_models[model]
+            raise ConfigError(
+                f"❌ 폐기된 모델: {model}\n"
+                f"💡 config.yaml의 ai.model을 '{new_model}'로 변경하세요"
+            )
+        
         if model not in valid_models:
-            logger.warning(f"⚠️  알 수 없는 모델: {model} (계속 진행)")
+            logger.warning(f"⚠️ 알 수 없는 모델: {model} (권장: gemini-2.5-flash)")
         
         # 파라미터 범위 검증
         if not (0.0 <= temperature <= 2.0):
@@ -112,7 +130,7 @@ class ConfigValidator:
         if not (1 <= summary_count <= 50):
             raise ConfigError(f"summary_count는 1~50 사이여야 함: {summary_count}")
         
-        logger.info("✅ AI 설정 검증 완료")
+        logger.info(f"✅ AI 설정 검증 완료 (모델: {model})")
         return True
     
     @classmethod
@@ -138,28 +156,16 @@ class ConfigLoader:
     DEFAULT_CONFIG = {
         'rss_feeds': [
             {
-                'name': 'The Jakarta Post',
-                'url': 'https://www.thejakartapost.com/rss',
+                'name': 'BBC News',
+                'url': 'http://feeds.bbci.co.uk/news/rss.xml',
                 'enabled': True,
                 'priority': 1
             },
             {
-                'name': 'CNBC Indonesia',
-                'url': 'https://www.cnbcindonesia.com/rss',
+                'name': 'CNN',
+                'url': 'http://rss.cnn.com/rss/cnn_topstories.rss',
                 'enabled': True,
                 'priority': 2
-            },
-            {
-                'name': 'Tempo.co',
-                'url': 'https://www.tempo.co/rss',
-                'enabled': True,
-                'priority': 3
-            },
-            {
-                'name': 'Antara News',
-                'url': 'https://www.antaranews.com/rss/terkini',
-                'enabled': True,
-                'priority': 4
             }
         ],
         'collection': {
@@ -168,10 +174,10 @@ class ConfigLoader:
             'hours_threshold': 24,
             'request_timeout': 10,
             'max_retries': 3,
-            'user_agent': 'Mozilla/5.0 (compatible; NewsBot/1.0)'
+            'user_agent': 'Mozilla/5.0 (compatible; NewsBot/2.0)'
         },
         'ai': {
-            'model': 'gemini-1.5-flash-8b',
+            'model': 'gemini-2.5-flash',  # ✅ 2026년 최신 모델
             'temperature': 0.3,
             'max_output_tokens': 2048,
             'top_p': 0.9,
@@ -219,7 +225,7 @@ class ConfigLoader:
         config_file = Path(config_path)
         
         if not config_file.exists():
-            logger.warning(f"⚠️  설정 파일 없음: {config_path}")
+            logger.warning(f"⚠️ 설정 파일 없음: {config_path}")
             if use_default_on_error:
                 logger.info("📄 기본 설정 사용")
                 return cls.DEFAULT_CONFIG.copy()
@@ -312,6 +318,19 @@ def load_config(config_path: str = 'config.yaml') -> Dict[str, Any]:
     return ConfigLoader.load(config_path)
 
 
+def validate_config(config: Dict[str, Any]) -> bool:
+    """
+    설정 검증 (단축 함수)
+    
+    ✅ 이 함수가 추가되어 ImportError가 해결됩니다!
+    
+    Usage:
+        config = load_config()
+        validate_config(config)
+    """
+    return ConfigValidator.validate(config)
+
+
 if __name__ == '__main__':
     # 테스트 코드
     import logging
@@ -332,7 +351,7 @@ if __name__ == '__main__':
         print(f"     → {url}")
     
     # 주요 설정 출력
-    print("\n⚙️  주요 설정:")
+    print("\n⚙️ 주요 설정:")
     print(f"  • 매체당 최대 기사: {config['collection']['max_articles_per_source']}개")
     print(f"  • 전체 최대 기사: {config['collection']['max_total_articles']}개")
     print(f"  • 시간 범위: {config['collection']['hours_threshold']}시간")
