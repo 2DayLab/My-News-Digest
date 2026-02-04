@@ -21,4 +21,4 @@ python-telegram-bot==13.15
 python-dateutil==2.9.0.post0
 
 # YAML 설정 파일 (새로 추가)
-PyYAML==6.0.10
+PyYAML==6.0.1
