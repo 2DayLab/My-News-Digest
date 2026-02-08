@@ -139,7 +139,7 @@ ai:
   # - 빠름 (8~12초)
   # - 고품질 (95% 정확도)
   # - 무료 (일 1,000회)
-  model: "gemini-2.5-flash"
+  model: "gemini-2.5-flash-lite"
 
   # 대안 모델 (필요시 변경)
   # model: "gemini-2.5-flash-lite"  # 더 빠름, 품질 약간 낮음
