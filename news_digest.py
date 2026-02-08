@@ -359,12 +359,20 @@ def summarize_with_gemini(articles: List[Dict], config: Dict, api_key: str) -> s
                 generation_config=generation_config
             )
             
-            summary = response.text
+            summary = response.text.strip()
             
-            if len(summary) < 50:
-                logger.warning(f"  ⚠️ 응답 너무 짧음: {len(summary)}자")
+            # 🔥 핵심 수정: 응답 검증 강화!
+            MIN_EXPECTED_LENGTH = 800  # 10개 뉴스 최소 길이
+            
+            if not summary or len(summary) < MIN_EXPECTED_LENGTH:
+                logger.warning(f"  ⚠️ 응답 부족: {len(summary)}자 (최소 {MIN_EXPECTED_LENGTH}자 필요)")
                 if attempt < max_retries - 1:
-                    continue
+                    logger.info(f"  🔄 재시도 {attempt+1}/{max_retries}")
+                    time.sleep(2 ** attempt)  # 지수 백오프
+                    continue  # 재시도!
+                else:
+                    # 최종 시도도 실패
+                    raise ValueError(f"응답 길이 부족: {len(summary)}자")
             
             logger.info(f"✅ 요약 생성 완료 ({len(summary)}자)")
             return summary
