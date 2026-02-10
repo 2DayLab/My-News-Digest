@@ -185,7 +185,7 @@ telegram:
   disable_preview: true
   
   # 메시지 형식 (Markdown 또는 HTML)
-  parse_mode: "Markdown"
+  parse_mode: "HTML"
   
   # 발송 실패 시 재시도
   retry_on_error: true
@@ -194,7 +194,7 @@ telegram:
   send_interval: 0.5
 
   # Markdown 특수문자 자동 이스케이프 (발송 실패 방지)
-  escape_markdown: true
+  escape_markdown: false
 
 # ───────────────────────────────────────────────────────────────
 # 로깅 설정
